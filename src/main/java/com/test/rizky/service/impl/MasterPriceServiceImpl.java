@@ -43,6 +43,9 @@ public class MasterPriceServiceImpl implements MasterPriceService {
     public MasterPriceDTO getById(Long id) {
         validateField(id, "id");
         MasterPrice masterPrice = masterPriceRepository.findById(id);
+        if  (!isExist(masterPrice)){
+            throw new ErrorApp("404", "data not found");
+        }
         log.info("response get data from redis {}", masterPrice);
 
         return isExist(masterPrice) ? masterPriceMapper.convertToDto(masterPrice) : null;
